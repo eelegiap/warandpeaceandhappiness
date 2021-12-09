@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<!-- https://www.d3-graph-gallery.com/graph/barplot_stacked_hover.html -->
+
+<title>War & Peace (& Happiness)</title>
+
+<!-- Create a div where the graph will take place -->
+<style>
+    .chosen {
+        fill: red
+    }
+
+    .row {
+        text-align: left;
+    }
+
+    h1 {
+        font-size: 32px
+    }
+
+    h2 {
+        font-size: 26px
+    }
+
+    h3 {
+        font-size: 24px
+    }
+
+    h4 {
+        font-size: 18px
+    }
+
+    p,
+    .col-md-4,
+    button, ul, ol, li, html{
+        font-size: 14px
+    }
+
+    .clicker {
+        cursor: pointer;
+    }
+
+    .счастье {
+        color: #ef476f
+    }
+
+    .радость {
+        color: #1b9aaa
+    }
+
+    .восторг {
+        color: #ffc43d
+    }
+
+    .legend,
+    .arealegend {
+        cursor: pointer
+    }
+
+    .bold {
+        font-weight: bold
+    }
+
+    .notbold {
+        font-weight: normal
+    }
+
+    .partMarker {
+        font-size: smaller
+    }
+
+    .examples {
+        display: none
+    }
+
+    .clear {
+        fill: white;
+
+    }
+
+    .figlabel {
+        color: gray;
+        font-style: italic
+    }
+
+    /* for new stacked area */
+    .y.axis .domain {
+        display: none;
+    }
+
+    .center {
+        text-align: center
+    }
+    .clickable {
+        cursor: pointer
+    }
+</style>
+
+<body>
+    <div class='container' style='margin: 50px; padding: 0;'>
+        <br>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h1>Happiness, joy, and rapture in Tolstoy's <i>War and Peace</i></h1>
+                <h2><i>A data-based analysis of word choice and characterization</i></h2>
+                <h3 style='color: purple'>Paige Lee</h3>
+                <p>Last updated <i style='color:darkgray'>Wednesday, December 8th, 2021</i>.</p>
+                <hr>
+                <h3>Table of Contents</h3>
+                <h4><a href='#projectabstract'>I. Project abstract</a></h4>
+                <h4><a href='#datamethods'>II. Data methods</a></h4>
+                <h4><a href='#dae'>III. Definitions and etymology</a></h4>
+                <h4><a href='#wordchoice'>IV. Discussion of word choice</a></h4>
+                <h4><a href='#ct'>V. Comparing translations</a></h4>
+                <h4><a href='#visualizations'>VI. Visualizations</a></h4>
+                <h4><a href='#discuss'>VII. Discussion of the data</a></h4>
+                <h4><a href='#limit'>VIII. Limitations and further questions</a></h4>
+                <hr>
+                <h3 id='projectabstract'>I. Project abstract:</h3>
+                <p>As the basis of my project, I will conduct a data-based investigation of Tolstoy’s use of happiness,
+                    joy,
+                    and rapture (счастье, радость, & восторг) in the novel and compare the data-based perspective with
+                    existing scholarship
+                    pertaining to the characterization of selected characters throughout the novel. I
+                    will draw my data from the Russian text, search for forms of the keywords above in the vicinity of
+                    different characters (Andrei, Pierre, & Natasha). I also will look at other
+                    words or concepts that frequently occur in the vicinity of these keywords and characters in order to
+                    examine the settings (at the front vs. in the salon), gestures (laughter, tears, speech, etc.), or
+                    objects (eyes, smile, sky, etc.) that are associated with the happiness of different characters. It
+                    is my hypothesis that (1) different characters are more predisposed toward certain intensities of
+                    joy (<i>schast'ye</i> being the most reserved, <i>vostorg</i> being most intense, and <i>radost'</i>
+                    somewhere in the
+                    middle), and/or (2) that Tolstoy includes repeated, subtle associations between happiness and other
+                    words that may differ across characters or time. Because of the project’s emphasis on word choice, I
+                    investigate the etymological differences between these word and discuss the implications of the
+                    words used in translation for <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>. Lastly, I hope
+                    to briefly discuss the
+                    advantages and disadvantages to examining literature as data.</p>
+                <h3 id='datamethods'>II. Data methods:</h3>
+                <p>
+                    I scraped the full Russian version of <i>War and Peace</i> from this website: <a
+                        href='https://ilibrary.ru/text/11/index.html'
+                        target="_blank">https://ilibrary.ru/text/11/index.html</a>.
+                    Using Python in Jupyter Lab, I assembled my own dataset of the Russian text, using tools from <a
+                        href='https://github.com/natasha' target='_blank'>Natasha</a>, Alexander Kukushkin's extensive
+                    GitHub respository for Russian natural language processing tasks.
+                    I mostly made use of <a href='https://github.com/natasha/slovnet' target='_blank'>Slovnet</a>,
+                    Kukushkin's deep learning model for Russian, to lemmatize words, since I was interested in finding
+                    all forms of words (like <i>schast'ye</i>, <i>schastlivy</i>, <i>schastlivo</i>, etc.).
+                    At this point, I searched through the parts of <i>War and Peace</i> for paragraphs where both a
+                    character and one of the happiness keywords appeared.
+                    The "happiness keywords" used in my analysis were <i>schast'ye</i> (happiness), <i>radost'</i>,
+                    (joy) and <i>vostorg</i> (rapture/delight).
+                    I assembled a set of paragraphs that contained character/happiness associations, making note of the
+                    volume, part, and chapter of the example, the character mentioned, and the "type" of happiness
+                    involved. I was able to find these paragraphs by looping over all the paragraphs in the novel,
+                    breaking each paragraph down word by word, converting those words into lemmas (standard dictionary forms of the word),
+                    and checking to see if the lemma matched one of the character names (Andrei, Pierre, or Natasha) or one of the happpiness
+                    lemmas of interest (happiness, joy, rapture).
+                    Because characters are often referred to by more than one name or nickname, I checked multiple names variations for each character:
+                    Andrei is also referred to Bolkonsky by his military compatriots and Andrusha by Princess Marya. Pierre is referred to as 
+                    Pyotr Kirillovich on occasion (or Bezukhov) and Natasha is occasionally referred to by her French nickname, Nathalie. 
+                    It is also necessary to check for different grammatical forms of their names,
+                    since Andrei's name will change to <i>Andreya</i> in the genitive case.
+                    I went through those paragraphs that contained more than one character name to try to disambiguate
+                    <i>which</i> character in particular was associated with happiness during that paragraph and removed
+                    by hand anything clearly mis-attributed.
+                    I used the resulting lists of associations for Andrei, Pierre, and Natasha to build the count-based
+                    visualizations below.
+                </p>
+                <p>
+                    The data files for all the data below are in .csv or .json format, although they could be converted to Excel if required.
+                    I built all the visualizations below in <b><a href='https://d3js.org/' target='_blank'>D3</a></b>, a Javascript library and framework for data visualization.
+                    D3 creates visualizations by binding the data and graphical elements to the Document Object Model. 
+                    These visualizations are loosely based on simple graph examples, like the line chart, stacked area chart, stacked bar chart, and
+                    <a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168' target='_blank'>bubble chart</a>.
+                    (see <a href='https://www.d3-graph-gallery.com/about.html' target='_blank'>https://www.d3-graph-gallery.com/about.html</a>) and highly adapted for my purposes below.
+                    D3 binds data-based elements to the Document Object Model, which means that the graphs are all interactive and
+                    are associated with other elements on the web page. All of the code on the webpage is HTML, CSS, or Javascript-based, although my analysis was
+                    conducted in Python. My highly cluttered GitHub code base with works in progress and failed tries is <a href='https://github.com/eelegiap/digitalwp'target='_blank'>here</a>: and the code for this webpage in particular is <a href=''target='_blank'>here</a>.
+                </p>
+                <hr>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h3 id='dae'>III. Definitions and etymology in English and Russian</h3>
+                <p>This project is interested in occurrences of the words happiness, joy, and rapture when used in the
+                    context of contentment, pleasure, and emotional happiness, although these words can have alternate
+                    meanings (like
+                    "happy coincidence," where happy is more akin to fortunate). Definitions and etymology are
+                    taken from the Oxford English Dictionary online.
+                    Russian definitions come from Kuznetsov's <i>Comprehensive Explanatory Dictionary of the Russian
+                        Language</i>. Russian etymology from Vasmer's <i>Etymological Dictionary of the Russian
+                        Language</i> (Translations of excerpts from both Russian dictionaries are my own).
+                </p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <div style='text-align: center;'>
+                    <h4 class='счастье'>Happiness</h4>
+                    <h4><i>schast'ye</i>/счастье</h4>
+                </div>
+            </div>
+            <div class='col-md-4'>
+                <div style='text-align: center;'>
+                    <h4 class='радость'>Joy</h4>
+                    <h4> <i>radost'</i>/радость</h4>
+                </div>
+            </div>
+            <div class='col-md-4'>
+                <div style='text-align: center;'>
+                    <h4 class='восторг'>Rapture/delight</h4>
+                    <h4><i>vostorg</i>/восторг</h4>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <h4>English definitions (Oxford English Dictionary)</h4>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                    <div class="accordion-body">
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <b>Definition of happiness (English)</b>:
+                                <ol>
+                                    <li>Feeling or showing a deep sense of pleasure or contentment, esp. arising from
+                                        satisfaction with
+                                        one's circumstances or condition; (also) marked by or expressive of such a
+                                        feeling. More
+                                        generally in weakened use: glad, pleased; satisfied, content.</li>
+                                </ol>
+
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Definition of joy (English)</b>:
+                                <ol>
+                                    <li>A vivid emotion of pleasure arising from a sense of well-being or satisfaction;
+                                        the feeling or
+                                        state of being highly pleased or delighted; exultation of spirit; gladness,
+                                        delight.</li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Definition of rapture (English)</b>:
+                                <ol>
+                                    <li>Chiefly in plural. A state, condition, or fit of intense delight or enthusiasm.
+                                        Now frequently
+                                        <i>to be in raptures:</i> to be delightedly enthusiastic. <i>to go into
+                                            raptures:</i> to talk
+                                        with (esp. affected) enthusiasm and delight.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <b>Alternate definitions:</b>
+                                <ol>
+                                    <li>
+                                        Of a person: favoured by good fortune; lucky, fortunate; successful.
+                                        Occasionally in extended
+                                        use. Now somewhat <i>rare.</i>
+                                    </li>
+                                    <li>
+                                        With infinitive: willing, ready, eager to do something.
+                                    </li>
+                                    <li>
+                                        <i>colloquial.</i> Slightly intoxicated, esp. so as to feel mildly elated.
+                                        (1662—1998)
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Alternate definitions:</b>
+                                <ol>
+                                    <li>
+                                        A pleasurable state or condition; a state of happiness or felicity; esp. the
+                                        perfect bliss or
+                                        beatitude of heaven; hence, the place of bliss, paradise, heaven; <i>Obsolete or
+                                            archaic.</i>
+                                        (c1275—1673)
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Alternate definitions:</b>
+                                <ol>
+                                    <li>
+                                        As a mass noun: transport of mind, mental exaltation or absorption, ecstasy;
+                                        (now esp.) ecstatic
+                                        delight or joy. (1598—1990)
+                                    </li>
+                                    <li>
+                                        The action or an act of carrying off a woman by force; abduction. Obsolete.
+                                        (1595—1752)
+                                    </li>
+                                    <li>
+                                        The act of conveying a person from one place to another, esp. to heaven; the
+                                        fact of being so
+                                        conveyed. Obsolete. (1609—1895)
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h4>Russian definitions (Oxford Russian-English Dictionary & Большой толковый словарь русского
+                            языка)</h4>
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+                    <div class="accordion-body">
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <b>English translation of schast'ye/счастье:</b>
+                                <ol>
+                                    <li>
+                                        happiness
+                                    </li>
+                                    <li>luck, good fortune</li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>English translation of radost'/радость:</b>
+                                <ol>
+                                    <li>
+                                        gladness, joy
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>English translation of vostorg/восторг:</b>
+                                <ol>
+                                    <li>delight, rapture</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <b>Definition of schast'ye/счастье</b>:
+                                <ol>
+                                    <li>Состояние высшей удовлетворённости жизнью,
+                                        чувство глубокого довольства и радости, испытываемое кем-л.; внешнее проявление
+                                        этого чувства.
+                                        [A state of high satisfaction with life, a feeling of deep contentment and joy
+                                        experienced by
+                                        smb.; external manifestation of this feeling.]
+                                    </li>
+                                </ol>
+
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Definition of radost'/радость</b>:
+                                <ol>
+                                    <li>Чувство удовольствия, ощущение большого душевного удовлетворения. [Feeling of
+                                        satisfaction,
+                                        feeling of great spiritual satisfaction.]</li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                                <b>Definition of vostorg/восторг</b>:
+                                <ol>
+                                    <li>Необычайно радостное состояние, чувство восхищения. [An unusually joyful state,
+                                        a sense of the
+                                        highest degree of pleasure.]
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <b>Alternate definitions:</b>
+                                <ol>
+                                    <li>
+                                        Успех, удача [Success, luck]
+                                    </li>
+                                    <li>Разг. Участь, доля, судьба [Colloquial. Fate, share, destiny]</li>
+                                </ol>
+                            </div>
+                            <div class='col-md-4'>
+                            </div>
+                            <div class='col-md-4'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <h4>English and Russian etymology (Oxford English Dictionary & Vasmer Etymological Dictionary)
+                        </h4>
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
+                    <div class="accordion-body">
+                        <div class='row'>
+                            <div class='col-md-4'>
+                                <p><b>Happiness</b> - Derived from “hap” meaning good fortune, chance</p>
+                                <p><b>Shast'ye/Счастье</b> - Orthodox origins (sъčęstь̂je) from sъ-: Old-Ind. su- "good"
+                                    + * čęst
+                                    "part", that is, "good lot" </p>
+                            </div>
+                            <div class='col-md-4'>
+                                <p><b>Joy</b> - Middle English: from Old French <i>joie</i>, based on Latin
+                                    <i>gaudium</i>, from
+                                    <i>gaudere</i> ‘rejoice’
+                                </p>
+                                <p><b>Radost'/Радость</b> - Possible relationship with the Anglo. rót "joyful, noble",
+                                    Old Norse. rǿtask
+                                    "to clear up, to have fun", </p>
+                            </div>
+                            <div class='col-md-4'>
+                                <p><b>Rapture</b> - late 16th century (in the sense ‘seizing and carrying off’): from
+                                    obsolete French,
+                                    or from medieval Latin <i>raptura</i> ‘seizing’, partly influenced by rapt.]</p>
+                                <p><b>Vostorg/Восторг</b> - From <i>voz</i>+ <i>torgat'</i> (воз + торгать). <i>Voz</i>
+                                    coming from
+                                    <i>voz</i> (cart/wagon) originally – conveyance, transference. <i>Torgat'</i> may
+                                    have its roots in
+                                    the Indo-European tr̥ṇḗḍhi "shattered, broken" and is possibly related to Russian
+                                    <i>terzat'</i>/терзать, meaning torment and <i>dyorgat'</i>/дёргать, meaning to tug
+                                    or pull at.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <br><br>
+                <h3 id='wordchoice'>IV. Discussion of Russian and English definitions and etymology</h3>
+                <p>
+                    Because this project deals with the Russian text, I am concerned with the specific words
+                    <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i> -- the words used in English translations may
+                    vary among happiness, gladness, joy, delight, rapture, and other close synonyms.
+                    However, the most common substitution for <i>schast'ye</i> is happiness, <i>radost'</i> is joy, and
+                    <i>vostorg</i> is rapture or delight, depending on the translation.
+                    The words happiness and <i>schast'ye</i> have a very close correspondence based on their etymology,
+                    both derived from the original meaning of "good fortune" or "good lot."
+                    Joy and <i>radost'</i> have a less clear etymological link. The English word joy comes from the
+                    Latin verb <i>gaudere</i>, "to rejoice," while the etymological origins of <i>radost'</i> are much
+                    less clear.
+                    Rapture and <i>vostorg</i> both have interesting alternate definitions and etymological histories.
+                    They follow similar grammatical structure "to be in rapture" and "<i>byt' v vostorg'ye</i>".
+                    Both originate from roots of conveyance and transportation. Rapture has religious connotations in
+                    English, and while
+                    <i>vostorg</i> does not have explicitly religious roots, the prefix <i>voz</i> is associated with
+                    religious terminology like <i>Voznesenie</i>/Вознесение, or Ascension Day.
+                    Although the <i>Oxford Russian-English Dictionary</i> defines <i>vostorg</i> as "delight, rapture,"
+                    rapture seems to be a more apt translation of <i>vostorg</i> because of their religious associations
+                    which delight lacks.
+                    "Ecstasy" (1. the state of being ‘beside oneself’, thrown into a frenzy or a stupor, with anxiety,
+                    astonishment, fear, or passion. 2. an exalted state of feeling which engrosses the mind to the
+                    exclusion of thought; rapture, transport.)
+                    is sometimes also used in place of <i>vostorg</i> in English translations, but ecstasy is not as
+                    associated with pleasure and good feeling as words like delight and rapture.
+                    I refer to the following pairs -- happy/<i>schast'ye</i>, joy/<i>radost'</i>, and
+                    rapture/<i>vostorg</i> -- for the purposes of my project
+                    because their definitions generally line up in terms of intensity of happiness
+                    (happy/<i>schast'ye</i> being least intense, joy/<i>radost'</i> next most intense, and
+                    rapture/<i>vostorg</i> most intense).
+                    The English definitions of these Russian words in the <i>Oxford Russian-English Dictionary</i>
+                    correspond with this ranking,
+                    but the ranking is not entirely clear based on the Russian definitions from the <i>Comprehensive
+                        Explanatory Dictionary of the Russian
+                        Language</i>. More investigation of Russian dictionaries would be helpful in disambiguating the
+                    subtle emotional differences between <i>schast'ye</i> and <i>radost'</i>.
+                </p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <hr>
+                <h3 id='ct'>V. Comparing translations</h3>
+                <p>
+                    I compare a few English translations of <i>War and Peace</i> to see the usual translations of the
+                    words <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i>.
+                    In this project, I am primarily concerned with the Russian word choice, but of course, the choices
+                    in English translation are highly impactful
+                    on how readers perceive the characters and the novel as a whole and raise questions about the
+                    subtleties of translating emotional states.
+                </p>
+                <br>
+                <h4 style='text-align: center'>Pierre in his new state of mind after his release from the prisoner of
+                    war camp (Vol. 4, Part 4, Chapter XIX)</h4>
+                <p>The translations of <i>schast'ye</i> and <i>radost'</i> are overall very consistent across the
+                    translations. In Garnett's early translation, she translates one instance of <i>schastlivymi</i> as
+                    "blissful" instead of "happy." Maude, in 1922, translates <i>radost'</i> as "pleasure" while the
+                    other two translations translate it as "joy."</p>
+                <br>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-3'>
+                <h4>Original Russian</h4>
+                <p>
+                    <span class='радость'>РАДОСТНОЕ</span>, неожиданное сумасшествие, к которому Пьер считал себя
+                    неспособным, овладело им. Весь
+                    смысл жизни, не для него одного, но для всего мира, казался ему заключающимся только в его любви и в
+                    возможности ее любви к нему. Иногда все люди казались ему занятыми только одним — его будущим
+                    <span class='счастье'>СЧАСТЬЕМ</span>. Ему казалось иногда, что все они <span
+                        class='радость'>РАДУЮТСЯ</span> так же, как и он сам, и только стараются скрыть
+                    эту <span class='радость'>РАДОСТЬ</span>, притворяясь занятыми другими интересами. В каждом слове и
+                    движении он видел намеки на
+                    свое <span class='счастье'>СЧАСТЬЕ</span>. Он часто удивлял людей, встречавшихся с ним, своими
+                    значительными, выражавшими тайное
+                    согласие, <span class='счастье'>СЧАСТЛИВЫМИ</span> взглядами и улыбками. Но когда он понимал, что
+                    люди могли не знать про его
+                    <span class='счастье'>СЧАСТЬЕ</span>, он от всей души жалел их и испытывал желание как-нибудь
+                    объяснить им, что все то, чем они
+                    заняты, есть совершенный вздор и пустяки, не стоящие внимания.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Garnett (1904)</h4>
+                <p>
+                    A <span class='радость'>joyful</span>, unexpected frenzy, of which Pierre had believed himself
+                    incapable, seized upon him. The whole
+                    meaning of life, not for him only, but for all the world, seemed to him centred in his love and the
+                    possibility of her loving him. Sometimes all men seemed to him to be absorbed in nothing else than
+                    his
+                    future <span class='счастье'>happiness</span>. It seemed to him sometimes that they were all <span
+                        class='радость'>rejoicing</span> as he was himself, and were
+                    only trying to conceal that <span class='радость'>joy</span>, by pretending to be occupied with
+                    other interests. In every word and
+                    gesture he saw an allusion to his <span class='счастье'>happiness</span>. He often surprised people
+                    by his significant and <span class='счастье'>blissful</span>
+                    looks and smiles, that seemed to express some secret understanding wih him. But when he realised
+                    that
+                    people could not know of his <span class='счастье'>happiness</span>, he pitied them from the bottom
+                    of his heart, and felt an impulse
+                    to try to make them somehow understand that all that they were interested in was utter nonsense and
+                    trifles not deserving of attention.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Maude (1922)</h4>
+                <p>
+                    A <span class='радость'>joyful</span>, unexpected frenzy, of which he had thought himself incapable,
+                    possessed him. The whole
+                    meaning of life—not for him alone but for the whole world—seemed to him centered in his love and the
+                    possibility of being loved by her. At times everybody seemed to him to be occupied with one thing
+                    only—his future <span class='счастье'>happiness</span>. Sometimes it seemed to him that other people
+                    were all as <span class='радость'>pleased</span> as he
+                    was himself and merely tried to hide that <span class='радость'>pleasure</span>, by pretending to be
+                    busy with other interests. In
+                    every word and gesture he saw allusions to his <span class='счастье'>happiness</span>. He often
+                    surprised those he met by his
+                    significantly <span class='счастье'>happy</span> looks and smiles which seemed to express a secret
+                    understanding between him and
+                    them. And when he realized that people might not be aware of his <span
+                        class='счастье'>happiness</span>, he pitied them with his
+                    whole heart and felt a desire somehow to explain to them that all that occupied them was a mere
+                    frivolous trifle unworthy of attention.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Pevear and Volokhonsky (2007)</h4>
+                <p>
+                    A <span class='радость'>joyful</span>, unexpected madness, of which Pierre considered himself
+                    incapable, came over him. The whole
+                    meaning of life, not only for him, but for all the world, seemed to him to consist only in his love
+                    and the possibility of her love for him. Sometimes all people seemed to him to be occupied with only
+                    one thing—his future <span class='счастье'>happiness</span>. It sometimes seemed to him that they
+                    were all <span class='радость'>rejoicing</span> as he was,
+                    and only tried to conceal their <span class='радость'>joy</span>, pretending to be occupied with
+                    other interests. In every word
+                    and movement he saw hints at his <span class='счастье'>happiness</span>. He often surprised people
+                    who met him by his significant
+                    <span class='счастье'>happy</span> glances and smiles, expressive of a secret complicity. But when
+                    he realized that people could
+                    not know of his <span class='счастье'>happiness</span>, he pitied them with all his heart and felt a
+                    desire to explain to them
+                    somehow that everything they were occupied with was completely nonsensical and trifling, not worthy
+                    of attention.
+                </p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h4 style='text-align: center'>Andrei thinking of Natasha in the medical tent during the Battle of
+                    Borodino (Vol. 3, Part 2,
+                    Chapter XXXVII)</h4>
+                <p>This excerpt highlights the various ways to translate <i>vostorg</i>. Respectively, the Garnett,
+                    Maude, and P&V translations translate <i>vostorzhennaya</i> (an adjectival form of <i>vostorg</i>)
+                    as "passionate," "ecstatic," and "rapturous." Where <i>vostorg</i> shows up earlier in the
+                    paragraph, the two later translators translate it as "rapture," while Garnett translated it as
+                    "ecstatic enjoyment." Although "ecstatic enjoyment" seems closer to <i>vostorg</i> than "ecstasy"
+                    alone (see etymology section), this unusual word combination probably obfuscates more than
+                    necessary.</p>
+                <br>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-3'>
+                <h4>Original Russian</h4>
+                <p>
+                    И вдруг новое, неожиданное воспоминание из мира детского, чистого и любовного, представилось князю
+                    Андрею. Он вспомнил Наташу такою, какою он видел ее в первый раз на бале 1810 года, с тонкой шеей и
+                    тонкими руками, с готовым на <span class='восторг'>ВОСТОРГ</span>, испуганным, <span
+                        class='счастье'>СЧАСТЛИВЫМ</span> лицом, и любовь и нежность к ней, еще
+                    живее и сильнее, чем когда-либо, проснулись в его душе. Он вспомнил теперь эту связь, которая
+                    существовала между им и этим человеком, сквозь слезы, наполнявшие распухшие глаза, мутно смотревшим
+                    на него. Князь Андрей вспомнил все, и <span class='восторг'>ВОСТОРЖЕННАЯ</span> жалость и любовь к
+                    этому человеку наполнили его
+                    <span class='счастье'>СЧАСТЛИВОЕ</span> сердце.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Garnett (1904)</h4>
+                <p>
+                    And all at once a new, unexpected memory from that childlike world of purity and love rose up before
+                    Prince Andrey. He remembered Natasha, as ge had seen her for the first time at the ball in 1810,
+                    with her slender neck and slender arms, and her frightened, <span class='счастье'>happy</span> face,
+                    ready for <span class='восторг'>ecstatic</span>
+                    enjoyment, and a love and tenderness awoke in his heart for her stronger and more loving than ever.
+                    He recalled now the bond that existed between him and this man, who was looking vaguely at him
+                    through the tears that filled his swollen eyes. Prince Andrey remembered everything, and a
+                    <span class='восторг'>passionate</span> pity and love for that suffering man filled his <span
+                        class='счастье'>happy</span> heart.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Maude (1922)</h4>
+                <p>
+                    And suddenly a new unexpected memory from that realm of pure and loving childhood presented itself
+                    to him. He remembered Natásha as he had seen her for the first time at the ball in 1810, with her
+                    slender neck and arms and with a frightened <span class='счастье'>happy</span> face ready for <span
+                        class='восторг'>rapture</span>, and love and tenderness
+                    for her, stronger and more vivid than ever, awoke in his soul. He now remembered the connection that
+                    existed between himself and this man who was dimly gazing at him through tears that filled his
+                    swollen eyes. He remembered everything, and <span class='восторг'>ecstatic</span> pity and love for
+                    that man overflowed his <span class='счастье'>happy</span>
+                    heart.
+                </p>
+            </div>
+            <div class='col-md-3'>
+                <h4>Pevear and Volokhonsky (2007)</h4>
+                <p>
+                    And suddenly a new and unexpected memory from the world of childhood, purity, and love came to
+                    Prince Andrei. He remembered Natasha as he had seen her for the first time at the ball in 1810, with
+                    her slender neck and arms, with her frightened, <span class='счастье'>happy</span> face ready for
+                    <span class='восторг'>rapture</span>, and in his soul love
+                    and tenderness for her awakened, stronger and more alive than ever. He now remembered the connection
+                    between him and this man, who was looking at him dully through the tears that filled his swollen
+                    eyes. Prince Andrei remembered everything, and a <span class='восторг'>rapturous</span> pity and
+                    love for this man filled his
+                    <span class='счастье'>happy</span> heart.
+                </p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <hr>
+                <h2 id='visualizations'>VI. Visualizations of <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i></h2>
+                <p>These visualizations are based on the dataset I compiled of instances of happiness, joy, and rapture co-occurring with the characters Andrei, Pierre, and Natasha. All of the visualizations have interactive elements and are intended for exploratory purposes.</p>
+                <h3><span class='figlabel'>Figure 1a: </span>
+                    Happiness over time for
+                    <span style='color: #3d405b'>Andrei</span>,
+                    <span style='color: #81b29a'>Pierre</span>, &
+                    <span style='color: #e07a5f'>Natasha</span>
+                </h3>
+                <p>The line chart below covers all 17 parts of <i>War and Peace</i> across the 4 volumes and Epilogue.
+                    The height of the line corresponds to the <i>count</i> of instances in the part where a character's
+                    name occurs in conjunction with any one of the happiness keywords - <i>schast'ye</i> (happiness),
+                    <i>radost'</i>, (joy) and <i>vostorg</i> (rapture/delight) in any form.
+                    Each individual line corresponds to one character: (<span style='color: #3d405b'>Andrei</span>,
+                    <span style='color: #81b29a'>Pierre</span>, &
+                    <span style='color: #e07a5f'>Natasha</span>). Click on the circles in the legend on the right to
+                    show/hide certain lines for less clutter.
+                    Note that low points in the graph do not necessarily mean that a character is sad or depressed
+                    during that part - the graph only indicates the presence or absence of the words <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i>.
+                </p>
+                <br>
+                <div id="line1"></div>
+                <hr>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <br>
+                <h3><span class='figlabel'>Textual examples: </span>Instances of <span class='счастье'>happiness</span>,
+                    <span class='радость'>joy</span>, and <span class='восторг'>rapture</span> for <span id='chosenchar'
+                        style='color: gray'>...</span> <span id='timespan'></span>
+                </h3>
+                <br>
+                <p><button id='showexamples'>Show textual examples mapped onto the graph</button></p>
+                <!-- <br> -->
+            </div>
+        </div>
+        <div class='row examples' style='max-height: 600px; overflow: scroll;'>
+            <div class='col-md-4'>
+                <h4>Happiness - <i>schast'ye</i>/счастье <span id='счастьеct'></span></h4>
+                <div id='счастьеexamples'></div>
+            </div>
+            <div class='col-md-4'>
+                <h4>Joy - <i>radost'</i>/радость <span id='радостьct'></span></h4>
+                <div id='радостьexamples'></div>
+            </div>
+            <div class='col-md-4'>
+                <h4>Rapture - <i>vostorg</i>/восторг <span id='восторгct'></span></h4>
+                <div id='восторгexamples'></div>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <hr>
+                <h3><span class='figlabel'>Figure 1b: </span>Relative occurrences of <span
+                        class='счастье'>happiness</span>, <span class='радость'>joy</span>, and <span
+                        class='восторг'>rapture</span> throughout the novel for <span
+                        style='text-decoration: underline;' id='thischar'></span></h3>
+                <p>This graph maps the same data from <i>Figure 1a</i> with more detail. In this graph, counts of
+                    happiness, joy, and rapture are separated, indicated by color. Click the circles on the right to
+                    toggle between the different characters. The height of each color in the graph's area corresponds to
+                    the number of examples with that specific keyword associated with the character.</p>
+                <br>
+                <div id="stackedline"></div>
+            </div>
+        </div>
+        <!-- <div class='row'>
+            <br>
+            <hr>
+            <h3>Comparing co-occurrences of characters and three happiness keywords
+                (<span id='счастье' class='updater счастье'>счастье</span>,
+                <span id='радость' class='updater радость'>радость</span>, &
+                <span id='восторг' class='updater восторг'>восторг</span>).
+            </h3>
+            <h4>Bar chart shows the number of counts of certain happiness words (<i>schast'ye</i>/счастье,
+                <i>radost'</i>/радость, & <i>vostorg</i>/восторг) and
+                different characters (Andrei, Pierre, & Natasha).
+            </h4>
+        </div> -->
+        <br>
+        <div class='row'>
+            <div class='col-md-5'>
+                <h3><span class='figlabel'>Figure 2a: </span>Happiness across characters</h3>
+                <h4>For Andrei, Pierre, and Natasha (aggregated across novel).</h4>
+                    <div style='text-align: right;'>
+                        <button id='reset' disabled='true' style='color: gray'>Reset graph</button>
+                    </div>
+                    
+                <div id='graph'></div>
+                <br>
+                <div style='text-align: left;'>
+
+                </div>
+            </div>
+            <div class='col-md-7'>
+                <h3><span class='figlabel'>Figure 2b: </span>Happiness across the parts</h3>
+                <h4>Spanning the 17 parts of the 4 volumes and Epilogue.</h4>
+                <div id='allbar'></div>
+            </div>
+        </div>
+        <div class='row'>
+            <div class=col-md-12>
+                <hr>
+                <h3><span class='figlabel'>Figure 3:</span> Words associated with happiness</h3>
+                <p>Words in the bubble are lemmas (dictionary form) of the word, since the same word might appear
+                    in multiple sentences in different forms.
+                </p>
+            </div>
+        </div>
+        <div class='row' style='min-height: 650px'>
+            <div class='col-md-6' style='text-align: center;'>
+                <!-- <br><br> -->
+                <p>Select a character to see word associations with happiness:</p>
+                <button id='allbutton' class='bubblebutton' style='color: lightgrey'>All characters</button>
+                <button id='Andreibutton' class='bubblebutton' style='color: #3d405b'>Andrei</button>
+                <button id='Pierrebutton' class='bubblebutton' style='color: #81b29a'>Pierre</button>
+                <button id='Natashabutton' class='bubblebutton' style='color: #e07a5f'>Natasha</button>
+                <br><br>
+                <div id='bubble'></div>
+            </div>
+            <div class='col-md-1'></div>
+            <div class='col-md-5'>
+                <h3>Sentences for <span id='bubchar' style='color: gray'>(select bubble)</span></h3>
+                <h4>Examples including happiness & <span id='bubbleword' style='color: gray'>(select bubble)</span></h4>
+                <div id='bubbleexamples' style='max-height: 500px; overflow: scroll'></div>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12' id='discuss'>
+                <hr>
+                <h2>VII. Discussion and analysis of the data</h2>
+                <p>
+                    <b>Note:</b> I would like to spend more time analyzing the data and visualizations in the context of the novel, but
+                    the data scraping and visualizations were very time-consuming processes, so I did not have much
+                    time left for extended analysis, especially because there is so much to discusss.
+                    Now that the visualizations are created, I can continue on this section in the future.
+                    Some of my observations are below.
+                </p>
+                <ul>
+                    <li>
+                        <b>Figures 1 and 2:</b> Starting with Figure 1a, we can examine the spikes in the graph to see the parts of novel where
+                        the characters are associated more frequently with happiness (when their name co-occurs with one of the three happiness keywords). Prince Andrei experiences an intense 
+                        spike in Volume 2, Part 3, the part when Andrei falls in love and proposes to Natasha, and notable
+                        but lower spikes in Volume 1, Part 2 (the Battle of Schongraben) and Volume 3, Part 3 (the Battle of Borodino).
+                        Pierre experiences two peaks in the first half of the novel in Volume 1, Part 3 (Pierre's engagement to Helene) 
+                        and Volume 2, Part 2 (Pierre's introduction to Masonry). However, Pierre's highest peak comes in Volume 4, Part 4 
+                        (Pierre's reunion with Natasha) and stays similarly high in Part 1 of the Epilogue, which describes Pierre and Natasha's family life.
+                        Natasha experiences her highest peak in Volume 2, Part 3, the same point as Andrei's highest peak (Andrei's proposal to Natasha).
+                        Natasha's second highest peak is in Volume 4, Part 4 (her reunion with Pierre). There is a general lull during
+                        Volume 3, which focuses on the French invasion into Russia in 1812.
+                    </li>
+                    <li>
+                        <b>Figures 2a and 2b:</b> Figures 2a and 2b both offer breakdowns of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
+                        2a for the three characters in question, and 2b for the 17 parts of the novel. Therefore, 2a compares "happiness breakdown by character"
+                        while 2b is "happiness breakdown over time." We also get an idea of differences in total 
+                        happiness counts -- in 2a, we see Andrei having less than half the number of happiness
+                        examples as both Pierre and Natasha. Pierre has the most examples, just barely more than Natasha.
+                        In terms of proportions, <i>vostorg</i> makes up only 7% of Andrei's examples, 17% of Pierre's, and 14% of Natasha's.
+                        This may point to Tolstoy's characterization of Andrei who is essentially serious, not prone to the 
+                        "rapture" or "ecstasy" that Pierre and Natasha experience more frequently. 
+                        Indeed, the only co-occurrence of Andrei and <i>vostorg</i> in the second half of book occurs when
+                        he is severely injured and half-conscious during his reunion with Natasha.
+                        Andrei has essentially the same number of <i>schasty'e</i> and <i>radost'</i> exampples,
+                        while Pierre's data slightly leans toward <i>radost'</i> and Natasha towards <i>schast'ye</i>.
+                        Figure 2b clearly shows that Part 6 (Volume 2, Part 3), is the part of the book with the highest 
+                        happiness count, overshadowing neighboring parts by two times. It is almost 33% taller than the next
+                        tallest bar, which is Volume 4, Part 4 (Natasha and Pierre's reunion). Part 6 has an extremely high 
+                        bar because of the alignment of Natasha and Andrei's peaks, which you can see in Figure 1a. Alignment to
+                        that degree does not occur elsewhere.
+                    </li>
+                    <li>
+                        <b>Figure 3:</b> In general, words (excluding stopwords like <i>он, это, который, то</i>, etc.) 
+                        that were highly associated with happiness were <i>litso</i> (face), <i>govorit'</i> (to say),
+                        <i>moch'</i> (to be able to/can), <i>chelovek</i> (person).
+                        The top words 
+                        for Prince Andrei was <i>zhizn'</i> (life), Pierre's were <i>govorit'</i> (to speak) and 
+                        <i>chelovek</i> (person), and Natasha's was <i>govorit'</i>. Some words that occurred with 
+                        certain characters more often than others: Andrei's cloud includes <i>voyenniy</i> (military)
+                        while Natasha and Pierre's did not, for obvious reasons. Pierre's cloud notably includes
+                        <i>dusha</i> (soul), while Natasha's does not, even though the two characters have similar number
+                        of examples in the database. This difference may have something to do with the differences
+                        in interiority that Tolstoy lends to his characters. Natasha is the only one of the three
+                        characters with a notable number of occurrences with <i>vesyoliy</i> (merry/cheerful). The 
+                        occurrence of this word along with the other keywords indicates that Natasha's episodes of happiness
+                        are generally quite intense and involve several synonyms for happy.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <hr>
+                <h2 id='limit'>VIII. Limitations and further questions</h2>
+                <br>
+                <h3 style='color: gray'>Limitations of the data and methods</h3>
+                <p>
+                    Several issues arise from a data-based look at happiness in <i>War and Peace</i>. For one, the dataset which I have assembled does not perfectly represent all co-occurrences of Andrei, Pierre, and Natasha with <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>.
+                    Because of the way I scraped the data, it's possible that there are paragraphs that mention a certain character and a certain keyword, but that character might not be experiencing that particular word. 
+                    This is something that is difficult to search and ascertain in a text because of the difficulties of computer "understanding" of language, a problem that requires more complex analytic methods than I had access to.
+                    Computer understanding of natural languages is a field of study that is thought to be "<a href='https://en.wikipedia.org/wiki/AI-complete' target='_blank'>AI-complete</a>", the set of the most difficult problems in artificial intelligence.
+                    For that reason, my study is exploratory in both technique and analysis, and I hope that applying different idioms of digital humanities will lead to an array of results from which to accept and discard.
+                </p>
+                <p>
+                    "Happiness" is also a deeply imperfect metric. I only look at 3 keywords that pertain to happiness. There are many other synonyms for happiness
+                    and many other ways that characters may "experience" happy emotions in the book (smiling, laughing, etc.). Thus, the examples
+                    here show more of the "telling" than the "showing" that Tolstoy is doing in his writing. Additionally,
+                    looking for these three keywords gives us some examples which don't necessary indicate that a character is happy.
+                    It's possible that the sentence says something in the negative, like "Pierre did not feel happiness because...", 
+                    something hypothetical, like "Natasha would have been so happy if...", or something unrelated to current
+                    happiness, like "Andrei considered the pursuit of happiness a fruitless task." Because of the ambiguity of
+                    language and difficulty in clearly defining meaning for a computer, examples like these find themselves in my dataset,
+                    although I tried my best to clean it up as possible.
+                </p>
+                <p>Additionally, since visualization is such an individual experience that relies heavily on the subjectivity of visual perception, the graphs above may not be the best way
+                    of showing the data that I have collected. In some cases, I had to make arbitrary choices about how to present data that
+                    spanned the whole novel: rather than breaking down by page or individual chapter, I opted to go by part. In this instance, the graph 
+                    will be not be entirely "accurate" in terms of happiness over time, since there are some parts which have more chapters than others. 
+                    I have also chosen to "round out" the lines in Figure 1a and Figure 1b to emphasize the continuity of the novel's plot, although it should be made
+                    clear that the data is discrete for each chapter.
+                </p>
+                <h3 style='color: gray'>Further questions and directions</h3>
+                <ul>
+                    <li>
+                        <b>Etymology:</b> The differences in translation of <i>schast'ye</i>/счастье,
+                        <i>radost'</i>/радость, & <i>vostorg</i>/восторг suggest that there are unanswered questions about 
+                        the emotional subtleties of the definitions of these Russian words. I also need more sources about
+                        the etymology of <i>radost'</i> to have a clearer picture of its origins.
+                    </li>
+                    <li>
+                        <b>Word choice and translation:</b> I was not able to cover all the translations of <i>War and Peace</i> and only looked at a few excerpts.
+                        Choosing more excerpts to analyze would help us learn more about the differences between <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
+                        particularly in this novel. It would also be prudent to look at other words which indicate happy emotion in Russian,
+                        like <i>vesel'ye</i>/веселье.
+                    </li>
+                    <li>
+                        <b>Happiness and Tolstoy</b>: It would be instructive from a different angle to look instances of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>
+                        across Tolstoy's work, across time. Is <i>War and Peace</i> a representative example of Tolstoy's relationship with these words in his writing?
+                    </li>
+                    <li>
+                        <b>Characterization:</b> Examining more characters (like Marya, Nikolai, Sonya) would give us a fuller picture of Tolstoy's
+                        relationship with <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i> in the novel.
+                    </li>
+                    <li>
+                        <b>Technical:</b> A great deal of progress is still needed to perfect this dataset. It would probably require a paragraph by paragraph examination of the book
+                        to find all instances of happiness and appropriately link them with different characters. The visualizations above can be
+                        refined, and novel visualizations can be built to provide more informative views of the data. More complex statistical analysis is also necessary.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class='row'>
+            <hr>
+            <div class='col-md-12' style='text-align: center;'>
+                <h3>Sources</h3>
+                <p><a href='https://ilibrary.ru/text/11/index.html'>Original Russian text of War and Peace online</a></p>
+                <p><a href='https://www.oed.com/'>Oxford English Dictionary Online</a></p>
+                <p>Vasmer, Max, and O. N. Trubachev. <i>Etimologicheskii Slovar' Russkogo Iazyka.</i> 1987. </p>
+                <p>Kuznetsov, S. A. <i>Bol'shoi Tolkovyi Slovar' Russkogo Iazyka.</i></p>
+                <p><a href='https://github.com/natasha'>Natasha, a library for Russian natural language processing tasks</a></p>
+                <p><a href='https://www.d3-graph-gallery.com/'>The D3 Library</a></p>
+                <p><a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168'>Bubble chart example</a></p>
+                
+                <br>
+                <p>Last updated <i style='color:darkgray'>Wednesday, December 8th, 2021</i>.</p>
+            </div>
+            <br><br><br>
+        </div>
+    </div>
+</body>
+
+<script src='stackedbar.js'></script>
+<script src='generaljoy.js'></script>
+<script src='linechart.js'></script>
+<script src='stackedline.js'></script>
+<script src='allbar.js'></script>
+<script src='bubble.js'></script>
+<script>
+    drawLineChart("alltypes12-8.csv", 'line1')
+</script>
