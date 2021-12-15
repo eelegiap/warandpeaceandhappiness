@@ -51,13 +51,19 @@
 
     p,
     .col-md-4,
-    button, ul, ol, li, html{
+    button,
+    ul,
+    ol,
+    li,
+    html {
         font-size: 14px
     }
+
     .bubblebutton {
         font-size: 18px;
         background-color: #e7e7e7;
     }
+
     .clicker {
         cursor: pointer;
     }
@@ -113,6 +119,7 @@
     .center {
         text-align: center
     }
+
     .clickable {
         cursor: pointer
     }
@@ -128,7 +135,8 @@
                 <h3 style='color: purple'>Paige Lee</h3>
                 <p>
                     <span style='float: left'>Harvard College, Slavic 118: War and Peace</span>
-                    <span style='float: right'>Last updated:<i style='color:darkgray'>Tuesday, December 14th, 2021</i></span>
+                    <span style='float: right'>Last updated:<i style='color:darkgray'>Tuesday, December 14th,
+                            2021</i></span>
                 </p>
                 <br>
                 <hr>
@@ -180,12 +188,17 @@
                     I assembled a set of paragraphs that contained character/happiness associations, making note of the
                     volume, part, and chapter of the example, the character mentioned, and the "type" of happiness
                     involved. I was able to find these paragraphs by looping over all the paragraphs in the novel,
-                    breaking each paragraph down word by word, converting those words into lemmas (standard dictionary forms of the word),
-                    and checking to see if the lemma matched one of the character names (Andrei, Pierre, or Natasha) or one of the happpiness
+                    breaking each paragraph down word by word, converting those words into lemmas (standard dictionary
+                    forms of the word),
+                    and checking to see if the lemma matched one of the character names (Andrei, Pierre, or Natasha) or
+                    one of the happpiness
                     lemmas of interest (happiness, joy, rapture).
-                    Because characters are often referred to by more than one name or nickname, I checked multiple names variations for each character:
-                    Andrei is also referred to Bolkonsky by his military compatriots and Andrusha by Princess Marya. Pierre is referred to as 
-                    Pyotr Kirillovich on occasion (or Bezukhov) and Natasha is occasionally referred to by her French nickname, Nathalie. 
+                    Because characters are often referred to by more than one name or nickname, I checked multiple names
+                    variations for each character:
+                    Andrei is also referred to Bolkonsky by his military compatriots and Andrusha by Princess Marya.
+                    Pierre is referred to as
+                    Pyotr Kirillovich on occasion (or Bezukhov) and Natasha is occasionally referred to by her French
+                    nickname, Nathalie.
                     It is also necessary to check for different grammatical forms of their names,
                     since Andrei's name will change to <i>Andreya</i> in the genitive case.
                     I went through those paragraphs that contained more than one character name to try to disambiguate
@@ -195,15 +208,26 @@
                     visualizations below.
                 </p>
                 <p>
-                    The data files for all the data below are in .csv or .json format, although they could be converted to Excel if required.
-                    I built all the visualizations below in <b><a href='https://d3js.org/' target='_blank'>D3</a></b>, a Javascript library and framework for data visualization.
-                    D3 creates visualizations by binding the data and graphical elements to the Document Object Model. 
-                    These visualizations are loosely based on simple graph examples, like the line chart, stacked area chart, stacked bar chart, and
-                    <a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168' target='_blank'>bubble chart</a>.
-                    (see <a href='https://www.d3-graph-gallery.com/about.html' target='_blank'>https://www.d3-graph-gallery.com/about.html</a>) and highly adapted for my purposes below.
-                    D3 binds data-based elements to the Document Object Model, which means that the graphs are all interactive and
-                    are associated with other elements on the web page. All of the code on the webpage is HTML, CSS, or Javascript-based, although my analysis was
-                    conducted in Python. My highly cluttered GitHub code base with works in progress and failed tries is <a href='https://github.com/eelegiap/digitalwp'target='_blank'>here</a>: and the code for this webpage in particular is <a href='https://github.com/eelegiap/warandpeaceandhappiness' target='_blank'>here</a>.
+                    The data files for all the data below are in .csv or .json format, although they could be converted
+                    to Excel if required.
+                    I built all the visualizations below in <b><a href='https://d3js.org/' target='_blank'>D3</a></b>, a
+                    Javascript library and framework for data visualization.
+                    D3 creates visualizations by binding the data and graphical elements to the Document Object Model.
+                    These visualizations are loosely based on simple graph examples, like the line chart, stacked area
+                    chart, stacked bar chart, and
+                    <a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168' target='_blank'>bubble
+                        chart</a>.
+                    (see <a href='https://www.d3-graph-gallery.com/about.html'
+                        target='_blank'>https://www.d3-graph-gallery.com/about.html</a>) and highly adapted for my
+                    purposes below.
+                    D3 binds data-based elements to the Document Object Model, which means that the graphs are all
+                    interactive and
+                    are associated with other elements on the web page. All of the code on the webpage is HTML, CSS, or
+                    Javascript-based, although my analysis was
+                    conducted in Python. My highly cluttered GitHub code base with works in progress and failed tries is
+                    <a href='https://github.com/eelegiap/digitalwp' target='_blank'>here</a>: and the code for this
+                    webpage in particular is <a href='https://github.com/eelegiap/warandpeaceandhappiness'
+                        target='_blank'>here</a>.
                 </p>
                 <hr>
             </div>
@@ -211,7 +235,8 @@
         <div class='row'>
             <div class='col-md-12'>
                 <h3 id='dae'>III. Definitions and etymology of <i>schast'ye</i>, <i>radost'</i>, & <i>vostorg</i></h3>
-                <p>This project is interested in occurrences of the words happiness (<i>schast'ye</i>), joy (<i>radost'</i>), and rapture (<i>vostorg</i>) when used in the
+                <p>This project is interested in occurrences of the words happiness (<i>schast'ye</i>), joy
+                    (<i>radost'</i>), and rapture (<i>vostorg</i>) when used in the
                     context of contentment, pleasure, and emotional happiness, although these words can have alternate
                     meanings (like
                     "happy coincidence," where happy is more akin to fortunate). English definitions and etymology are
@@ -437,7 +462,8 @@
                         <div class='row'>
                             <div class='col-md-4'>
                                 <p><b>Happiness</b> - Derived from “hap” meaning good fortune, chance</p>
-                                <p><b>Schast'ye/Счастье</b> - Orthodox origins (sъčęstь̂je) from sъ-: Old-Ind. su- "good"
+                                <p><b>Schast'ye/Счастье</b> - Orthodox origins (sъčęstь̂je) from sъ-: Old-Ind. su-
+                                    "good"
                                     + * čęst
                                     "part", that is, "good lot" </p>
                             </div>
@@ -697,7 +723,9 @@
             <div class='col-md-12'>
                 <hr>
                 <h2 id='visualizations'>VI. Visualizations of <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i></h2>
-                <p>These visualizations are based on the dataset I compiled of instances of happiness, joy, and rapture co-occurring with the characters Andrei, Pierre, and Natasha. All of the visualizations have interactive elements and are intended for exploratory purposes.</p>
+                <p>These visualizations are based on the dataset I compiled of instances of happiness, joy, and rapture
+                    co-occurring with the characters Andrei, Pierre, and Natasha. All of the visualizations have
+                    interactive elements and are intended for exploratory purposes.</p>
                 <h3><span class='figlabel'>Figure 1a: </span>
                     Happiness over time for
                     <span style='color: #3d405b'>Andrei</span>,
@@ -713,7 +741,8 @@
                     <span style='color: #e07a5f'>Natasha</span>). Click on the circles in the legend on the right to
                     show/hide certain lines for less clutter.
                     Note that low points in the graph do not necessarily mean that a character is sad or depressed
-                    during that part - the graph only indicates the presence or absence of the words <i>schast'ye</i>, <i>radost'</i>, and <i>vostorg</i>.
+                    during that part - the graph only indicates the presence or absence of the words <i>schast'ye</i>,
+                    <i>radost'</i>, and <i>vostorg</i>.
                 </p>
                 <br>
                 <div id="line1"></div>
@@ -731,7 +760,8 @@
                 <p style='text-align: center;'>
                     <button id='showexamples'>Show textual examples mapped onto the graph</button>
                 </p>
-                <p style='text-align: center;'>Select a dot from the graph to see the textual examples for a specific character during a certain part of the book.</p>
+                <p style='text-align: center;'>Select a dot from the graph to see the textual examples for a specific
+                    character during a certain part of the book.</p>
                 <!-- <br> -->
             </div>
         </div>
@@ -782,10 +812,10 @@
             <div class='col-md-5'>
                 <h3><span class='figlabel'>Figure 2a: </span>Happiness across characters</h3>
                 <h4>For Andrei, Pierre, and Natasha (aggregated across novel).</h4>
-                    <div style='text-align: right;'>
-                        <button id='reset' disabled='true' style='color: gray'>Reset graph</button>
-                    </div>
-                    
+                <div style='text-align: right;'>
+                    <button id='reset' disabled='true' style='color: gray'>Reset graph</button>
+                </div>
+
                 <div id='graph'></div>
                 <br>
                 <div style='text-align: left;'>
@@ -830,61 +860,84 @@
                 <hr>
                 <h2>VII. Discussion of data and characterization</h2>
                 <p>
-                    <b>Note:</b> I would like to spend more time analyzing the data and visualizations in the context of the novel, but
+                    <b>Note:</b> I would like to spend more time analyzing the data and visualizations in the context of
+                    the novel, but
                     the data scraping and visualizations were very time-consuming processes, so I did not have much
                     time left for extended analysis, especially because there is so much to discusss.
                     Now that the visualizations are created, I can continue on this section in the future.
                     Some of my observations are below.
                 </p>
-                <ul>
-                    <li>
-                        <b>Figures 1a and 1b:</b> Starting with Figure 1a, we can examine the spikes in the graph to see the parts of novel where
-                        the characters are associated more frequently with happiness (when their name co-occurs with one of the three happiness keywords). Prince Andrei experiences an intense 
-                        spike in Volume 2, Part 3, the part when Andrei falls in love and proposes to Natasha, and notable
-                        but lower spikes in Volume 1, Part 2 (the Battle of Schongraben) and Volume 3, Part 3 (the Battle of Borodino).
-                        Pierre experiences two peaks in the first half of the novel in Volume 1, Part 3 (Pierre's engagement to Helene) 
-                        and Volume 2, Part 2 (Pierre's introduction to Masonry). However, Pierre's highest peak comes in Volume 4, Part 4 
-                        (Pierre's reunion with Natasha) and stays similarly high in Part 1 of the Epilogue, which describes Pierre and Natasha's family life.
-                        Natasha experiences her highest peak in Volume 2, Part 3, the same point as Andrei's highest peak (Andrei's proposal to Natasha).
-                        Natasha's second highest peak is in Volume 4, Part 4 (her reunion with Pierre). There is a general lull during
-                        Volume 3, which focuses on the French invasion into Russia in 1812.
-                    </li>
-                    <li>
-                        <b>Figures 2a and 2b:</b> Figures 2a and 2b both offer breakdowns of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
-                        2a for the three characters in question, and 2b for the 17 parts of the novel. Therefore, 2a compares "happiness breakdown by character"
-                        while 2b is "happiness breakdown over time." We also get an idea of differences in total 
-                        happiness counts -- in 2a, we see Andrei having less than half the number of happiness
-                        examples as both Pierre and Natasha. Pierre has the most examples, just barely more than Natasha.
-                        In terms of proportions, <i>vostorg</i> makes up only 7% of Andrei's examples, 17% of Pierre's, and 14% of Natasha's.
-                        This may point to Tolstoy's characterization of Andrei who is essentially serious, not prone to the 
-                        "rapture" or "ecstasy" that Pierre and Natasha experience more frequently. 
-                        Indeed, the only co-occurrence of Andrei and <i>vostorg</i> in the second half of book occurs when
-                        he is severely injured and half-conscious during his reunion with Natasha.
-                        Andrei has essentially the same number of <i>schasty'e</i> and <i>radost'</i> exampples,
-                        while Pierre's data slightly leans toward <i>radost'</i> and Natasha towards <i>schast'ye</i>.
-                        Figure 2b clearly shows that Part 6 (Volume 2, Part 3), is the part of the book with the highest 
-                        happiness count, overshadowing neighboring parts by two times. It is almost 33% taller than the next
-                        tallest bar, which is Volume 4, Part 4 (Natasha and Pierre's reunion). Part 6 has an extremely high 
-                        bar because of the alignment of Natasha and Andrei's peaks, which you can see in Figure 1a. Alignment to
-                        that degree does not occur elsewhere.
-                    </li>
-                    <li>
-                        <b>Figure 3:</b> In general, words (excluding stopwords like <i>он, это, который, то</i>, etc.) 
-                        that were highly associated with happiness were <i>litso</i> (face), <i>govorit'</i> (to say),
-                        <i>moch'</i> (to be able to/can), <i>chelovek</i> (person).
-                        The top words 
-                        for Prince Andrei was <i>zhizn'</i> (life), Pierre's were <i>govorit'</i> (to speak) and 
-                        <i>chelovek</i> (person), and Natasha's was <i>govorit'</i>. Some words that occurred with 
-                        certain characters more often than others: Andrei's cloud includes <i>voyenniy</i> (military)
-                        while Natasha and Pierre's did not, for obvious reasons. Pierre's cloud notably includes
-                        <i>dusha</i> (soul), while Natasha's does not, even though the two characters have similar number
-                        of examples in the database. This difference may have something to do with the differences
-                        in interiority that Tolstoy lends to his characters. Natasha is the only one of the three
-                        characters with a notable number of occurrences with <i>vesyoliy</i> (merry/cheerful). The 
-                        occurrence of this word along with the other keywords indicates that Natasha's episodes of happiness
-                        are generally quite intense and involve several synonyms for happy.
-                    </li>
-                </ul>
+                <h3><span class='figlabel'>Figure 1a: </span>
+                    Happiness over time for
+                    <span style='color: #3d405b'>Andrei</span>,
+                    <span style='color: #81b29a'>Pierre</span>, &
+                    <span style='color: #e07a5f'>Natasha</span>,
+                </h3>
+                <h3><span class='figlabel'>Figure 1b: </span>Relative occurrences of <span
+                        class='счастье'>happiness</span>, <span class='радость'>joy</span>, and <span
+                        class='восторг'>rapture</span> throughout the novel</h3>
+                <p>
+                    Starting with Figure 1a, we can examine the spikes in the graph to see the parts of novel where
+                    the characters are associated more frequently with happiness (when their name co-occurs with one of
+                    the three happiness keywords). Prince Andrei experiences an intense
+                    spike in Volume 2, Part 3, the part when Andrei falls in love and proposes to Natasha, and notable
+                    but lower spikes in Volume 1, Part 2 (the Battle of Schongraben) and Volume 3, Part 3 (the Battle of
+                    Borodino).
+                    Pierre experiences two peaks in the first half of the novel in Volume 1, Part 3 (Pierre's engagement
+                    to Helene)
+                    and Volume 2, Part 2 (Pierre's introduction to Masonry). However, Pierre's highest peak comes in
+                    Volume 4, Part 4
+                    (Pierre's reunion with Natasha) and stays similarly high in Part 1 of the Epilogue, which describes
+                    Pierre and Natasha's family life.
+                    Natasha experiences her highest peak in Volume 2, Part 3, the same point as Andrei's highest peak
+                    (Andrei's proposal to Natasha).
+                    Natasha's second highest peak is in Volume 4, Part 4 (her reunion with Pierre). There is a general
+                    lull during
+                    Volume 3, which focuses on the French invasion into Russia in 1812.
+                </p>
+
+                <h3><span class='figlabel'>Figure 2a: </span>Happiness across characters, <span class='figlabel'>Figure 2b: </span>Happiness across the parts</h3>
+                <p>
+                    Figures 2a and 2b both offer breakdowns of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
+                    2a for the three characters in question, and 2b for the 17 parts of the novel. Therefore, 2a
+                    compares "happiness breakdown by character"
+                    while 2b is "happiness breakdown over time." We also get an idea of differences in total
+                    happiness counts -- in 2a, we see Andrei having less than half the number of happiness
+                    examples as both Pierre and Natasha. Pierre has the most examples, just barely more than Natasha.
+                    In terms of proportions, <i>vostorg</i> makes up only 7% of Andrei's examples, 17% of Pierre's, and
+                    14% of Natasha's.
+                    This may point to Tolstoy's characterization of Andrei who is essentially serious, not prone to the
+                    "rapture" or "ecstasy" that Pierre and Natasha experience more frequently.
+                    Indeed, the only co-occurrence of Andrei and <i>vostorg</i> in the second half of book occurs when
+                    he is severely injured and half-conscious during his reunion with Natasha.
+                    Andrei has essentially the same number of <i>schasty'e</i> and <i>radost'</i> exampples,
+                    while Pierre's data slightly leans toward <i>radost'</i> and Natasha towards <i>schast'ye</i>.
+                    Figure 2b clearly shows that Part 6 (Volume 2, Part 3), is the part of the book with the highest
+                    happiness count, overshadowing neighboring parts by two times. It is almost 33% taller than the next
+                    tallest bar, which is Volume 4, Part 4 (Natasha and Pierre's reunion). Part 6 has an extremely high
+                    bar because of the alignment of Natasha and Andrei's peaks, which you can see in Figure 1a.
+                    Alignment to
+                    that degree does not occur elsewhere.
+                </p>
+
+                <h3><span class='figlabel'>Figure 3:</span> Words associated with happiness (Russian only)</h3>
+                <p>
+                    In general, words (excluding stopwords like <i>он, это, который, то</i>, etc.)
+                    that were highly associated with happiness were <i>litso</i> (face), <i>govorit'</i> (to say),
+                    <i>moch'</i> (to be able to/can), <i>chelovek</i> (person).
+                    The top words
+                    for Prince Andrei was <i>zhizn'</i> (life), Pierre's were <i>govorit'</i> (to speak) and
+                    <i>chelovek</i> (person), and Natasha's was <i>govorit'</i>. Some words that occurred with
+                    certain characters more often than others: Andrei's cloud includes <i>voyenniy</i> (military)
+                    while Natasha and Pierre's did not, for obvious reasons. Pierre's cloud notably includes
+                    <i>dusha</i> (soul), while Natasha's does not, even though the two characters have similar number
+                    of examples in the database. This difference may have something to do with the differences
+                    in interiority that Tolstoy lends to his characters. Natasha is the only one of the three
+                    characters with a notable number of occurrences with <i>vesyoliy</i> (merry/cheerful). The
+                    occurrence of this word along with the other keywords indicates that Natasha's episodes of happiness
+                    are generally quite intense and involve different synonyms for happy.
+                </p>
+
             </div>
         </div>
         <div class='row'>
@@ -894,56 +947,90 @@
                 <br>
                 <h3 style='color: gray'>Limitations of the data and methods</h3>
                 <p>
-                    Several issues arise from a data-based look at happiness in <i>War and Peace</i>. For one, the dataset which I have assembled does not perfectly represent all co-occurrences of Andrei, Pierre, and Natasha with <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>.
-                    Because of the way I scraped the data, it's possible that there are paragraphs that mention a certain character and a certain keyword, but that character might not be experiencing that particular word. 
-                    This is something that is difficult to search and ascertain in a text because of the difficulties of computer "understanding" of language, a problem that requires more complex analytic methods than I had access to.
-                    Computer understanding of natural languages is a field of study that is thought to be "<a href='https://en.wikipedia.org/wiki/AI-complete' target='_blank'>AI-complete</a>", the set of the most difficult problems in artificial intelligence.
-                    For that reason, my study is exploratory in both technique and analysis, and I hope that applying different idioms of digital humanities will lead to an array of results from which to accept and discard.
+                    Several issues arise from a data-based look at happiness in <i>War and Peace</i>. For one, the
+                    dataset which I have assembled does not perfectly represent all co-occurrences of Andrei, Pierre,
+                    and Natasha with <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>.
+                    Because of the way I scraped the data, it's possible that there are paragraphs that mention a
+                    certain character and a certain keyword, but that character might not be experiencing that
+                    particular word.
+                    This is something that is difficult to search and ascertain in a text because of the difficulties of
+                    computer "understanding" of language, a problem that requires more complex analytic methods than I
+                    had access to.
+                    Computer understanding of natural languages is a field of study that is thought to be "<a
+                        href='https://en.wikipedia.org/wiki/AI-complete' target='_blank'>AI-complete</a>", the set of
+                    the most difficult problems in artificial intelligence.
+                    For that reason, my study is exploratory in both technique and analysis, and I hope that applying
+                    different idioms of digital humanities will lead to an array of results from which to accept and
+                    discard.
                 </p>
                 <p>
-                    "Happiness" is also a deeply imperfect metric. I only look at 3 keywords that pertain to happiness. There are many other synonyms for happiness
-                    and many other ways that characters may "experience" happy emotions in the book (smiling, laughing, etc.). Thus, the examples
-                    here show more of the "telling" than the "showing" that Tolstoy is doing in his writing. Additionally,
-                    looking for these three keywords gives us some examples which don't necessary indicate that a character is happy.
-                    It's possible that the sentence says something in the negative, like "Pierre did not feel happiness because...", 
-                    something hypothetical, like "Natasha would have been so happy if...", or something unrelated to current
-                    happiness, like "Andrei considered the pursuit of happiness a fruitless task." Because of the ambiguity of
-                    language and difficulty in clearly defining meaning for a computer, examples like these find themselves in my dataset,
+                    "Happiness" is also a deeply imperfect metric. I only look at 3 keywords that pertain to happiness.
+                    There are many other synonyms for happiness
+                    and many other ways that characters may "experience" happy emotions in the book (smiling, laughing,
+                    etc.). Thus, the examples
+                    here show more of the "telling" than the "showing" that Tolstoy is doing in his writing.
+                    Additionally,
+                    looking for these three keywords gives us some examples which don't necessary indicate that a
+                    character is happy.
+                    It's possible that the sentence says something in the negative, like "Pierre did not feel happiness
+                    because...",
+                    something hypothetical, like "Natasha would have been so happy if...", or something unrelated to
+                    current
+                    happiness, like "Andrei considered the pursuit of happiness a fruitless task." Because of the
+                    ambiguity of
+                    language and difficulty in clearly defining meaning for a computer, examples like these find
+                    themselves in my dataset,
                     although I tried my best to clean it up as possible.
                 </p>
-                <p>Additionally, since visualization is such an individual experience that relies heavily on the subjectivity of visual perception, the graphs above may not be the best way
-                    of showing the data that I have collected. In some cases, I had to make arbitrary choices about how to present data that
-                    spanned the whole novel: rather than breaking down by page or individual chapter, I opted to go by part. In this instance, the graph 
-                    will be not be entirely "accurate" in terms of happiness over time, since there are some parts which have more chapters than others. 
-                    I have also chosen to "round out" the lines in Figure 1a and Figure 1b to emphasize the continuity of the novel's plot, although it should be made
+                <p>Additionally, since visualization is such an individual experience that relies heavily on the
+                    subjectivity of visual perception, the graphs above may not be the best way
+                    of showing the data that I have collected. In some cases, I had to make arbitrary choices about how
+                    to present data that
+                    spanned the whole novel: rather than breaking down by page or individual chapter, I opted to go by
+                    part. In this instance, the graph
+                    will be not be entirely "accurate" in terms of happiness over time, since there are some parts which
+                    have more chapters than others.
+                    I have also chosen to "round out" the lines in Figure 1a and Figure 1b to emphasize the continuity
+                    of the novel's plot, although it should be made
                     clear that the data is discrete for each chapter.
                 </p>
                 <h3 style='color: gray'>Further questions and directions</h3>
                 <ul>
                     <li>
                         <b>Etymology:</b> The differences in translation of <i>schast'ye</i>/счастье,
-                        <i>radost'</i>/радость, & <i>vostorg</i>/восторг suggest that there are unanswered questions about 
-                        the emotional subtleties of the definitions of these Russian words. I also need more sources about
+                        <i>radost'</i>/радость, & <i>vostorg</i>/восторг suggest that there are unanswered questions
+                        about
+                        the emotional subtleties of the definitions of these Russian words. I also need more sources
+                        about
                         the etymology of <i>radost'</i> to have a clearer picture of its origins.
                     </li>
                     <li>
-                        <b>Word choice and translation:</b> I was not able to cover all the translations of <i>War and Peace</i> and only looked at a few excerpts.
-                        Choosing more excerpts to analyze would help us learn more about the differences between <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
-                        particularly in this novel. It would also be prudent to look at other words which indicate happy emotion in Russian,
+                        <b>Word choice and translation:</b> I was not able to cover all the translations of <i>War and
+                            Peace</i> and only looked at a few excerpts.
+                        Choosing more excerpts to analyze would help us learn more about the differences between
+                        <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>,
+                        particularly in this novel. It would also be prudent to look at other words which indicate happy
+                        emotion in Russian,
                         like <i>vesel'ye</i>/веселье.
                     </li>
                     <li>
-                        <b>Happiness and Tolstoy</b>: It would be instructive from a different angle to look instances of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>
-                        across Tolstoy's work, across time. Is <i>War and Peace</i> a representative example of Tolstoy's relationship with these words in his writing?
+                        <b>Happiness and Tolstoy</b>: It would be instructive from a different angle to look instances
+                        of <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i>
+                        across Tolstoy's work, across time. Is <i>War and Peace</i> a representative example of
+                        Tolstoy's relationship with these words in his writing?
                     </li>
                     <li>
-                        <b>Characterization:</b> Examining more characters (like Marya, Nikolai, Sonya) would give us a fuller picture of Tolstoy's
+                        <b>Characterization:</b> Examining more characters (like Marya, Nikolai, Sonya) would give us a
+                        fuller picture of Tolstoy's
                         relationship with <i>schast’ye</i>, <i>radost’</i>, and <i>vostorg</i> in the novel.
                     </li>
                     <li>
-                        <b>Technical:</b> A great deal of progress is still needed to perfect this dataset. It would probably require a paragraph by paragraph examination of the book
-                        to find all instances of happiness and appropriately link them with different characters. The visualizations above can be
-                        refined, and novel visualizations can be built to provide more informative views of the data. More complex statistical analysis is also necessary.
+                        <b>Technical:</b> A great deal of progress is still needed to perfect this dataset. It would
+                        probably require a paragraph by paragraph examination of the book
+                        to find all instances of happiness and appropriately link them with different characters. The
+                        visualizations above can be
+                        refined, and novel visualizations can be built to provide more informative views of the data.
+                        More complex statistical analysis is also necessary.
                     </li>
                 </ul>
             </div>
@@ -956,10 +1043,12 @@
                 <p><a href='https://www.oed.com/'>Oxford English Dictionary Online</a></p>
                 <p>Vasmer, Max, and O. N. Trubachev. <i>Etimologicheskii Slovar' Russkogo Iazyka.</i> 1987. </p>
                 <p>Kuznetsov, S. A. <i>Bol'shoi Tolkovyi Slovar' Russkogo Iazyka.</i></p>
-                <p><a href='https://github.com/natasha'>Natasha, a library for Russian natural language processing tasks</a></p>
+                <p><a href='https://github.com/natasha'>Natasha, a library for Russian natural language processing
+                        tasks</a></p>
                 <p><a href='https://www.d3-graph-gallery.com/'>The D3 Library</a></p>
-                <p><a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168'>Bubble chart example</a></p>
-                
+                <p><a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168'>Bubble chart example</a>
+                </p>
+
                 <br>
                 <p>Last updated: <i style='color:darkgray'>Tuesday, December 14th, 2021</i>.</p>
             </div>
