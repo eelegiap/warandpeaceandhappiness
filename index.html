@@ -54,7 +54,10 @@
     button, ul, ol, li, html{
         font-size: 14px
     }
-
+    .bubblebutton {
+        font-size: 18px;
+        background-color: #e7e7e7;
+    }
     .clicker {
         cursor: pointer;
     }
@@ -123,7 +126,11 @@
                 <h1>Happiness, joy, and rapture in Tolstoy's <i>War and Peace</i></h1>
                 <h2><i>A data-based analysis of word choice and characterization</i></h2>
                 <h3 style='color: purple'>Paige Lee</h3>
-                <p>Last updated <i style='color:darkgray'>Wednesday, December 8th, 2021</i>.</p>
+                <p>
+                    <span style='float: left'>Harvard College, Slavic 118: War and Peace</span>
+                    <span style='float: right'>Last updated:<i style='color:darkgray'>Tuesday, December 14th, 2021</i></span>
+                </p>
+                <br>
                 <hr>
                 <h3>Table of Contents</h3>
                 <h4><a href='#projectabstract'>I. Project abstract</a></h4>
@@ -132,7 +139,7 @@
                 <h4><a href='#wordchoice'>IV. Discussion of word choice</a></h4>
                 <h4><a href='#ct'>V. Comparing translations</a></h4>
                 <h4><a href='#visualizations'>VI. Visualizations</a></h4>
-                <h4><a href='#discuss'>VII. Discussion of the data</a></h4>
+                <h4><a href='#discuss'>VII. Discussion of data and characterization</a></h4>
                 <h4><a href='#limit'>VIII. Limitations and further questions</a></h4>
                 <hr>
                 <h3 id='projectabstract'>I. Project abstract:</h3>
@@ -196,18 +203,18 @@
                     (see <a href='https://www.d3-graph-gallery.com/about.html' target='_blank'>https://www.d3-graph-gallery.com/about.html</a>) and highly adapted for my purposes below.
                     D3 binds data-based elements to the Document Object Model, which means that the graphs are all interactive and
                     are associated with other elements on the web page. All of the code on the webpage is HTML, CSS, or Javascript-based, although my analysis was
-                    conducted in Python. My highly cluttered GitHub code base with works in progress and failed tries is <a href='https://github.com/eelegiap/digitalwp'target='_blank'>here</a>: and the code for this webpage in particular is <a href=''target='_blank'>here</a>.
+                    conducted in Python. My highly cluttered GitHub code base with works in progress and failed tries is <a href='https://github.com/eelegiap/digitalwp'target='_blank'>here</a>: and the code for this webpage in particular is <a href='https://github.com/eelegiap/warandpeaceandhappiness' target='_blank'>here</a>.
                 </p>
                 <hr>
             </div>
         </div>
         <div class='row'>
             <div class='col-md-12'>
-                <h3 id='dae'>III. Definitions and etymology in English and Russian</h3>
-                <p>This project is interested in occurrences of the words happiness, joy, and rapture when used in the
+                <h3 id='dae'>III. Definitions and etymology of <i>schast'ye</i>, <i>radost'</i>, & <i>vostorg</i></h3>
+                <p>This project is interested in occurrences of the words happiness (<i>schast'ye</i>), joy (<i>radost'</i>), and rapture (<i>vostorg</i>) when used in the
                     context of contentment, pleasure, and emotional happiness, although these words can have alternate
                     meanings (like
-                    "happy coincidence," where happy is more akin to fortunate). Definitions and etymology are
+                    "happy coincidence," where happy is more akin to fortunate). English definitions and etymology are
                     taken from the Oxford English Dictionary online.
                     Russian definitions come from Kuznetsov's <i>Comprehensive Explanatory Dictionary of the Russian
                         Language</i>. Russian etymology from Vasmer's <i>Etymological Dictionary of the Russian
@@ -430,7 +437,7 @@
                         <div class='row'>
                             <div class='col-md-4'>
                                 <p><b>Happiness</b> - Derived from “hap” meaning good fortune, chance</p>
-                                <p><b>Shast'ye/Счастье</b> - Orthodox origins (sъčęstь̂je) from sъ-: Old-Ind. su- "good"
+                                <p><b>Schast'ye/Счастье</b> - Orthodox origins (sъčęstь̂je) from sъ-: Old-Ind. su- "good"
                                     + * čęst
                                     "part", that is, "good lot" </p>
                             </div>
@@ -721,11 +728,14 @@
                         style='color: gray'>...</span> <span id='timespan'></span>
                 </h3>
                 <br>
-                <p><button id='showexamples'>Show textual examples mapped onto the graph</button></p>
+                <p style='text-align: center;'>
+                    <button id='showexamples'>Show textual examples mapped onto the graph</button>
+                </p>
+                <p style='text-align: center;'>Select a dot from the graph to see the textual examples for a specific character during a certain part of the book.</p>
                 <!-- <br> -->
             </div>
         </div>
-        <div class='row examples' style='max-height: 600px; overflow: scroll;'>
+        <div class='row examples' style='max-height: 600px; overflow: scroll; text-align: center;'>
             <div class='col-md-4'>
                 <h4>Happiness - <i>schast'ye</i>/счастье <span id='счастьеct'></span></h4>
                 <div id='счастьеexamples'></div>
@@ -791,7 +801,7 @@
         <div class='row'>
             <div class=col-md-12>
                 <hr>
-                <h3><span class='figlabel'>Figure 3:</span> Words associated with happiness</h3>
+                <h3><span class='figlabel'>Figure 3:</span> Words associated with happiness (Russian only)</h3>
                 <p>Words in the bubble are lemmas (dictionary form) of the word, since the same word might appear
                     in multiple sentences in different forms.
                 </p>
@@ -801,7 +811,7 @@
             <div class='col-md-6' style='text-align: center;'>
                 <!-- <br><br> -->
                 <p>Select a character to see word associations with happiness:</p>
-                <button id='allbutton' class='bubblebutton' style='color: lightgrey'>All characters</button>
+                <button id='allbutton' class='bubblebutton' style='color: black'>All characters</button>
                 <button id='Andreibutton' class='bubblebutton' style='color: #3d405b'>Andrei</button>
                 <button id='Pierrebutton' class='bubblebutton' style='color: #81b29a'>Pierre</button>
                 <button id='Natashabutton' class='bubblebutton' style='color: #e07a5f'>Natasha</button>
@@ -818,7 +828,7 @@
         <div class='row'>
             <div class='col-md-12' id='discuss'>
                 <hr>
-                <h2>VII. Discussion and analysis of the data</h2>
+                <h2>VII. Discussion of data and characterization</h2>
                 <p>
                     <b>Note:</b> I would like to spend more time analyzing the data and visualizations in the context of the novel, but
                     the data scraping and visualizations were very time-consuming processes, so I did not have much
@@ -828,7 +838,7 @@
                 </p>
                 <ul>
                     <li>
-                        <b>Figures 1 and 2:</b> Starting with Figure 1a, we can examine the spikes in the graph to see the parts of novel where
+                        <b>Figures 1a and 1b:</b> Starting with Figure 1a, we can examine the spikes in the graph to see the parts of novel where
                         the characters are associated more frequently with happiness (when their name co-occurs with one of the three happiness keywords). Prince Andrei experiences an intense 
                         spike in Volume 2, Part 3, the part when Andrei falls in love and proposes to Natasha, and notable
                         but lower spikes in Volume 1, Part 2 (the Battle of Schongraben) and Volume 3, Part 3 (the Battle of Borodino).
@@ -942,7 +952,7 @@
             <hr>
             <div class='col-md-12' style='text-align: center;'>
                 <h3>Sources</h3>
-                <p><a href='https://ilibrary.ru/text/11/index.html'>Original Russian text of War and Peace online</a></p>
+                <p><a href='https://ilibrary.ru/text/11/index.html'>Russian text of War and Peace online</a></p>
                 <p><a href='https://www.oed.com/'>Oxford English Dictionary Online</a></p>
                 <p>Vasmer, Max, and O. N. Trubachev. <i>Etimologicheskii Slovar' Russkogo Iazyka.</i> 1987. </p>
                 <p>Kuznetsov, S. A. <i>Bol'shoi Tolkovyi Slovar' Russkogo Iazyka.</i></p>
@@ -951,7 +961,7 @@
                 <p><a href='https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168'>Bubble chart example</a></p>
                 
                 <br>
-                <p>Last updated <i style='color:darkgray'>Wednesday, December 8th, 2021</i>.</p>
+                <p>Last updated: <i style='color:darkgray'>Tuesday, December 14th, 2021</i>.</p>
             </div>
             <br><br><br>
         </div>

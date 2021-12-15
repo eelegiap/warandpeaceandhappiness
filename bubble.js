@@ -11,6 +11,12 @@ function drawBubbles(character) {
     d3.select('#bubbleexamples').html('')
     d3.select('#bubbleword').text('(select bubble)')
 
+    d3.selectAll('.bubblebutton').on('mouseover', function() {
+        d3.select(this).transition().style('background-color','gray')}
+    ).on('mouseout', function() {
+        d3.select(this).transition().style('background-color','#e7e7e7')}
+    )
+
     d3.json('bubbledata/'+character+'data.json', function (dataset) {
         d3.json('bubbledata/'+character+'sents.json', function (sentdata) {
             var diameter = 600;
